@@ -21,10 +21,18 @@ public class StatementServiceTest extends OperationHistoryApiApplicationTest {
     }
 
     @Test
-    @Order(2)
+    @Order(1)
     public void getOperations(){
         String operations = statementService.getStringStorage();
         assertEquals("{1=[Operations{operationCreditType=DEBIT, sum=2500.0, currency=RUB, merchant=OZON'}]}", operations);
+    }
+
+    @Test
+    @Order(2)
+    public void getCustomerOperations(){
+        int customerId = 1;
+        String operations = statementService.getOperationsFromCustomer(customerId).toString();
+        assertEquals("[Operations{operationCreditType=DEBIT, sum=2500.0, currency=RUB, merchant=OZON'}]", operations);
     }
 
     @Test

@@ -44,14 +44,10 @@ public class StatementService {
             operations.add(operation);
         }
     }
-    public void removeOperation(int operationId){
-        storage.remove(operationId);
-    }
 
-    public List<Operation> getOperationOnId(int operationId){
-        return storage.get(operationId);
+    public List<Operation> getOperationsFromCustomer(int customerId) {
+        return storage.get(customerId);
     }
-
     public void removeOperationsOnCustomerId(int id){
         for(int i: storage.keySet()){
             if (i == id){

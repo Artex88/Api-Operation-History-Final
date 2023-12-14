@@ -26,7 +26,7 @@ public class OperationsController {
 
     @GetMapping("{customerId}")
     public OperationsGetResponse checkOperationsByCustomerId(@PathVariable("customerId") int customerId){
-        List<Operation> operations = statementService.getOperationOnId(customerId);
+        List<Operation> operations = statementService.getOperationsFromCustomer(customerId);
         List<OperationDTO> operationDTOS = operations.stream()
                 .map(operation ->
                         new OperationDTO(operation.getId(),operation.getSum(), operation.getCurrency(), operation.getMerchant(), operation.getOperationCreditType())).collect(Collectors.toList());

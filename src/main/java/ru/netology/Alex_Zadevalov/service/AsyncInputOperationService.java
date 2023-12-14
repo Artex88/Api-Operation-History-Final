@@ -23,9 +23,9 @@ public class AsyncInputOperationService {
         this.startProcessing();
     }
 
-    public boolean addOperation(Operation operation) {
+    public void addOperation(Operation operation) {
         System.out.println("Operation added for processing " + operation);
-        return operations.offer(operation);
+        operations.offer(operation);
     }
 
     public void startProcessing() {
