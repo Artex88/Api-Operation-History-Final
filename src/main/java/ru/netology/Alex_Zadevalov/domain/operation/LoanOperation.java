@@ -4,7 +4,7 @@ import ru.netology.Alex_Zadevalov.domain.ConsolePrintable;
 
 
 
-public class LoanOperation extends Operations implements ConsolePrintable {
+public class LoanOperation extends Operation implements ConsolePrintable {
     private int loanId;
 
     @Override
@@ -25,7 +25,7 @@ public class LoanOperation extends Operations implements ConsolePrintable {
         this.loanId = loanId;
     }
 
-    public LoanOperation(OperationCreditType operationCreditType, double sum, Currency currency, String merchant, int customerId, int loanId) {
+    private LoanOperation(OperationCreditType operationCreditType, double sum, Currency currency, String merchant, int customerId, int loanId) {
         super(operationCreditType, sum, currency, merchant, customerId);
         this.loanId = loanId;
     }

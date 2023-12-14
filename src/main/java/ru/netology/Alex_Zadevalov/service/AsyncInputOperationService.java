@@ -1,40 +1,45 @@
 package ru.netology.Alex_Zadevalov.service;
 
-import ru.netology.Alex_Zadevalov.domain.operation.Operations;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.netology.Alex_Zadevalov.configuration.OperationProperties;
+import ru.netology.Alex_Zadevalov.domain.operation.Operation;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
+@Component
+@RequiredArgsConstructor
 public class AsyncInputOperationService {
-    private final Queue<Operations> operations = new LinkedList<>();
-    private final StatementService statementService;
 
-    public AsyncInputOperationService(StatementService statementService) {
-        this.statementService = statementService;
+    @Getter
+    private final Queue<Operation> operations = new LinkedList<>();
+    private final StatementService statementService;
+    private final OperationProperties operationProperties;
+
+    @PostConstruct
+    public void init(){
+        this.startProcessing();
     }
 
-    public boolean addOperation(Operations operation) {
+    public boolean addOperation(Operation operation) {
         System.out.println("Operation added for processing " + operation);
         return operations.offer(operation);
     }
 
     public void startProcessing() {
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                processQueue();
-
-            }
-        };
+        Thread t = new Thread(this::processQueue);
         t.start();
     }
 
     private void processQueue() {
         while (true) {
-            Operations operation = operations.poll();
+            Operation operation = operations.poll();
             if (operation == null) {
                 try {
                     System.out.println("No operations");
-                    Thread.sleep(1_000);
+                    Thread.sleep(operationProperties.getSleepMilliSeconds());
                 } catch (InterruptedException e) {
                     System.out.println(e);
                 }
@@ -45,15 +50,7 @@ public class AsyncInputOperationService {
         }
     }
 
-    private void processOperation(Operations operation) {
-        statementService.saveOperations(operation);
-    }
-
-    public Queue<Operations> getOperations() {
-        return operations;
-    }
-
-    public StatementService getStatementService() {
-        return statementService;
+    private void processOperation(Operation operation) {
+        statementService.saveOperation(operation);
     }
 }

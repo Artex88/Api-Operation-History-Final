@@ -4,7 +4,7 @@ import ru.netology.Alex_Zadevalov.domain.ConsolePrintable;
 
 
 
-public final class CashbackOperation extends Operations implements ConsolePrintable {
+public final class CashbackOperation extends Operation implements ConsolePrintable {
     private int cashbackAmount;
 
     public void printToConsole(){
@@ -16,7 +16,7 @@ public final class CashbackOperation extends Operations implements ConsolePrinta
         this.cashbackAmount = cashbackAmount;
     }
 
-    public CashbackOperation(OperationCreditType operationCreditType, double sum, Currency currency, String merchant, int customerId, int cashbackAmount) {
+    private CashbackOperation(OperationCreditType operationCreditType, double sum, Currency currency, String merchant, int customerId, int cashbackAmount) {
         super(operationCreditType, sum, currency, merchant, customerId);
         this.cashbackAmount = cashbackAmount;
     }

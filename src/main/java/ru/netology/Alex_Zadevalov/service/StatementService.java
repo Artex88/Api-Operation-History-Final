@@ -1,22 +1,43 @@
 package ru.netology.Alex_Zadevalov.service;
 
 
-import ru.netology.Alex_Zadevalov.domain.operation.Operations;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import ru.netology.Alex_Zadevalov.domain.Customer;
+import ru.netology.Alex_Zadevalov.domain.operation.Currency;
+import ru.netology.Alex_Zadevalov.domain.operation.Operation;
+import ru.netology.Alex_Zadevalov.domain.operation.OperationCreditType;
+
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
+@Service
+@Getter
+@AllArgsConstructor
 public class StatementService {
-    public final Map<Integer, List<Operations>> storage = new HashMap<>();
 
-    public void saveOperations(Operations operation){
-        List<Operations> operations = storage.get(operation.getCustomerId());
+    private final Map<Integer, List<Operation>> storage = new HashMap<>();
+
+    @PostConstruct
+    public void initStorage() {
+        List<Operation> initialList = new ArrayList<>();
+        initialList.add(new Operation(OperationCreditType.DEBIT, 2500, Currency.RUB, "OZON", 1));
+        storage.put(1,initialList);
+    }
+
+    public String getStringStorage(){
+        return storage.toString();
+    }
+
+    public void saveOperation(Operation operation){
+        List<Operation> operations = storage.get(operation.getCustomerId());
         if (operations == null){
-            List<Operations> customerOperations = new ArrayList<>();
+            List<Operation> customerOperations = new ArrayList<>();
             customerOperations.add(operation);
             storage.put(operation.getCustomerId(), customerOperations);
         } else {
@@ -27,15 +48,15 @@ public class StatementService {
         storage.remove(operationId);
     }
 
-    public String getOperations(){
-        return storage.toString();
+    public List<Operation> getOperationOnId(int operationId){
+        return storage.get(operationId);
     }
 
-    public StatementService() {
+    public void removeOperationsOnCustomerId(int id){
+        for(int i: storage.keySet()){
+            if (i == id){
+                storage.remove(i);
+            }
+        }
     }
-
-    public Map<Integer, List<Operations>> getStorage() {
-        return storage;
-    }
-
 }
