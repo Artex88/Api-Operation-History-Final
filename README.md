@@ -1,1 +1,1 @@
-Финальная 8 практика курса Netology java for Data Sciense
+Итоговая работа по курсу Java для Data Science студента УРФУ Задевалова Алексей
